@@ -1,0 +1,21 @@
+&MeshParams
+numLon          = 240
+numLat          = 120
+/
+
+&TimeParams
+numTimeStep     = 576
+dt              = 1800.0d0
+/
+
+&TracerParams
+numTracerLon    = 480
+numTracerLat    = 240
+/
+
+&FileIOParams
+searchlistFile	= "searchlist-240x120.dat"
+flowFile	= "flow.nc"
+gridFile	= "grid.nc"
+tracerFile	= "tracer.nc"
+/

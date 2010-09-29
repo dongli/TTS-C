@@ -1,0 +1,14 @@
+********************************************************************************
+************************* Trajectory Tracking Scheme ***************************
+********************************************************************************
+Description:
+
+  Trajectory Tracking Scheme (TTS) is used to solve linear advection problem in
+atmospheric sciences. It is constructed in fully Lagrangian framework. The main
+focus of TTS is to eliminate the spurious numerical diffusion.
+
+  The continuous trace constituents are discretized into finite samples, which
+carry the trace quantities (like density, etc). This is refered as Lagrangian
+space. By continuously tracking the location of the samples, numerical diffusion
+can be ruled out in Lagrangian space.
+
