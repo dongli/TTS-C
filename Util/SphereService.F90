@@ -12,7 +12,7 @@ module SphereService
     real(8), parameter :: PI05  = 0.5d0*PI
     real(8), parameter :: PI025 = 0.25d0*PI
     real(8), parameter :: PI15  = 1.5d0*PI
-    real(8), parameter :: Re    = 6371.229d3
+    real(8), parameter :: Re    = 1.0d0!6371.229d3
     real(8), parameter :: Re2   = Re**2.0d0
     real(8), parameter :: Rad2Deg = 180.0d0/PI
 
@@ -33,11 +33,6 @@ contains
             temp2 = cos(latO)*sin(latP)*cos(dlon)-cos(latP)*sin(latO)
             lonR = atan2(temp1, temp2)
             if (lonR < 0.0d0) lonR = PI2+lonR
-#if (defined DEBUG)
-            if (.not. FloatingPoint_Check(lonR, "lonR")) then
-                call RunManager_EndRun
-            end if
-#endif
         end if
         if (present(latR)) then
             temp1 = sin(latO)*sin(latP)
@@ -45,14 +40,6 @@ contains
             temp3 = temp1+temp2
             temp3 = min(max(temp3, -1.0d0), 1.0d0)
             latR = asin(temp3)
-#if (defined DEBUG)
-            if (.not. FloatingPoint_Check(latR, "latR")) then
-                write(*, "('  (1) sin(latO)*sin(latP)           = ', F)") temp1
-                write(*, "('  (2) cos(lat))*cos(latP)*cos(dlon) = ', F)") temp2
-                write(*, "('  (1)+(2)                           = ', F)") temp1+temp2
-                call RunManager_EndRun
-            end if
-#endif
         end if
 
         call MsgManager_DeleteSpeaker

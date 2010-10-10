@@ -12,10 +12,12 @@ module CommonTypes
     end type SubHandle
 
     type OperationList
+        character(20) :: name = "N/A"
         integer :: num = 0
         type(SubHandle), pointer :: head
     contains
         procedure :: register => OperationList_register
+        procedure :: dump => OperationList_dump
     end type OperationList
 
     ! ======================================================================== !
@@ -66,6 +68,21 @@ contains
         sh%handle => handle
 
     end subroutine OperationList_register
+
+    subroutine OperationList_dump(a)
+        class(OperationList), intent(in) :: a
+    
+        type(SubHandle), pointer :: sh
+        integer i
+
+        write(*, "('Operation list of ', A)") trim(a%name)
+        sh => a%head
+        do i = 1, a%num
+            write(*, "(' handle ', I2, ': ', A, '::', A)") i, trim(sh%modName), trim(sh%subName)
+            sh => sh%next
+        end do
+
+    end subroutine OperationList_dump
     
     real(8) function TwoTimeLevel_getNew(a) result(res)
         class(TwoTimeLevel), intent(in) :: a

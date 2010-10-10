@@ -90,8 +90,12 @@ contains
         call NFWrap_New2DVar(fcard, "div", "lon", "lat", div%name, div%unit, timeVariant=.true.)
         ! <---
 
+#if (defined FC_GFORTRAN)
         p => FlowManager_Final
         call RunManager_RegisterOperation("EndRun", "FlowManager", "Final", p)
+#elif (defined FC_IFORT)
+        call RunManager_RegisterOperation("EndRun", "FlowManager", "Final", FlowManager_Final)
+#endif
 
         call MsgManager_Speak(Notice, "Finished.")
         call MsgManager_DeleteSpeaker

@@ -148,6 +148,8 @@ contains
 
         ! ==================================================================== !
         ! register operation
+
+#if (defined FC_GFORTRAN)
         p => SampleCounter
         call MeshManager_RegisterOperation("LocationCheck", &
             "LagrangeToEuler", "SampleCounter", p)
@@ -157,6 +159,14 @@ contains
         p => LagrangeToEuler_Final
         call RunManager_RegisterOperation("EndRun", &
             "LagrangeToEuler", "Final", p)
+#elif (defined FC_IFORT)
+        call MeshManager_RegisterOperation("LocationCheck", &
+            "LagrangeToEuler", "SampleCounter", SampleCounter)
+        call TracerManager_RegisterOperation("RegisterTracer", &
+            "LagrangeToEuler", "RegisterTracer", RegisterTracer)
+        call RunManager_RegisterOperation("EndRun", &
+            "LagrangeToEuler", "Final", LagrangeToEuler_Final)
+#endif
 
         call MsgManager_Speak(Notice, "Finished.")
         call MsgManager_DeleteSpeaker
@@ -327,10 +337,8 @@ contains
 #if (defined DEBUG)
                 if (abs(weightSum) < eps) then
                     call MsgManager_Speak(Error, "weightSum equals zero!")
-                    print *, supSmpDisNormal
-                    print *, supSmpIdNormal
-                    print *, i, j
-                    print *, lev
+                    write(*, "('  Grid ', I, ',', I)") i, j
+                    write(*, "('  Level ', I)") lev
                     call RunManager_EndRun
                 end if
 #endif
@@ -479,7 +487,7 @@ contains
         call MsgManager_DeleteSpeaker
     
     end subroutine LagrangeToEuler_IDWInterp
-    
+ 
     subroutine LagrangeToEuler_Output(timeStep, time)
         integer, intent(in) :: timeStep
         real(8), intent(in) :: time

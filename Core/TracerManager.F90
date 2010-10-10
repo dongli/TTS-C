@@ -97,8 +97,12 @@ contains
         !                           NETCDF PART
         call NFWrap_CreateIrregular(filePath, fcard)
 
+#if (defined FC_GFROTRAN)
         p => TracerManager_Final
         call RunManager_RegisterOperation("EndRun", "TracerManager", "Final", p)
+#elif (defined FC_IFORT)
+        call RunManager_RegisterOperation("EndRun", "TracerManager", "Final", TracerManager_Final)
+#endif
 
         call MsgManager_Speak(Notice, "Finished.")
         call MsgManager_DeleteSpeaker

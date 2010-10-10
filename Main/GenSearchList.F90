@@ -42,7 +42,7 @@ program GenSearchList
 
     m => MeshSelector("Full mesh")
 
-    maxSearchLevel = 5
+    maxSearchLevel = 10
 
     open(10, file=outputFilePath, form="unformatted")
 

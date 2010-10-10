@@ -402,6 +402,11 @@ contains
         end if
         call NFWrap_HandleError(ierr)
 
+#if (defined DEBUG)
+        ierr = nf90_sync(card%id)
+        call NFWrap_HandleError(ierr)
+#endif
+
         call MsgManager_DeleteSpeaker
     
     end subroutine NFWrap_Output1DVar
@@ -504,7 +509,12 @@ contains
             ierr = nf90_put_var(card%id, var%id, varValue)
         end if
         call NFWrap_HandleError(ierr)
-        
+ 
+#if (defined DEBUG)
+        ierr = nf90_sync(card%id)
+        call NFWrap_HandleError(ierr)
+#endif
+
         call MsgManager_DeleteSpeaker
     
     end subroutine NFWrap_Output2DVar

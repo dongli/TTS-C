@@ -4,7 +4,7 @@ numLat          = 120
 /
 
 &TimeParams
-numTimeStep     = 576
+numTimeStep     = 600
 dt              = 1800.0d0
 /
 
@@ -14,7 +14,7 @@ numTracerLat    = 240
 /
 
 &FileIOParams
-searchlistFile	= "searchlist-240x120.dat"
+searchlistFile	= "searchlist-240x120-10.dat"
 flowFile	= "flow.nc"
 gridFile	= "grid.nc"
 tracerFile	= "tracer.nc"
