@@ -79,9 +79,9 @@ program CalcError_2
     L2Error = sqrt(L2Error/q2)
     LInfError = LInfError/qInf
 
-    write(*, "('L1Error   = ', F)") L1Error
-    write(*, "('L2Error   = ', F)") L2Error
-    write(*, "('LInfError = ', F)") LInfError
+    write(*, "('L1Error   = ', F20.15)") L1Error
+    write(*, "('L2Error   = ', F20.15)") L2Error
+    write(*, "('LInfError = ', F20.15)") LInfError
 
     ierr = nf90_inq_varid(ncid, "error", errVarId)
     if (ierr /= nf90_noerr) then

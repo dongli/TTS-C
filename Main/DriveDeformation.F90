@@ -80,7 +80,7 @@ program DriveDeformation
     call MeshManager_Init(numLon, numLat)
     call FlowManager_Init(flowFile)
     call TracerManager_Init(1, tracerFile)
-    call DeformationTestbed_Init("case 3", "Gaussian hills")
+    call DeformationTestbed_Init("case 4", "slotted cylinders")
 #if (defined LAGRANGE_TO_EULER)
     call LagrangeToEuler_Init(searchlistFile, gridFile)
 #endif

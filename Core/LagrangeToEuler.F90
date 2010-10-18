@@ -337,8 +337,8 @@ contains
 #if (defined DEBUG)
                 if (abs(weightSum) < eps) then
                     call MsgManager_Speak(Error, "weightSum equals zero!")
-                    write(*, "('  Grid ', I, ',', I)") i, j
-                    write(*, "('  Level ', I)") lev
+                    write(*, "('  Grid:  ', I3, ',', I3)") i, j
+                    write(*, "('  Level: ', I3)") lev
                     call RunManager_EndRun
                 end if
 #endif

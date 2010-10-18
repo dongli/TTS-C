@@ -443,7 +443,7 @@ contains
                 if (r2 <= r .and. dlon2 >= r/6.0d0) then
                     q(i) = c
                 end if
-                if (r2 <= r .and. dlon2 < r/6.0d0 .and. dlat2 > -5.0d0/12.0d0*r) then
+                if (r2 <= r .and. dlon2 < r/6.0d0 .and. dlat2 > 5.0d0/12.0d0*r) then
                     q(i) = c
                 end if
             end do
