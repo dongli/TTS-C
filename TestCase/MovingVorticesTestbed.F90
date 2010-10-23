@@ -19,10 +19,10 @@ module MovingVorticesTestbed
     real(8), parameter :: gamma = 5.0d0 ! control the "stiffness" of the field
     real(8), parameter :: V0 = PI2*Re/12.0d0/86400.0d0
     real(8), parameter :: V0_Re = V0/Re
-    real(8), parameter :: B  = PI05  ! angle between rotation axis and pole
+    real(8), parameter :: alpha  = PI05  ! angle between rotation axis and pole
     real(8), parameter :: rho0 = 3.0d0
     real(8), parameter :: lonRotate0 = PI
-    real(8), parameter :: latRotate0 = PI05-B
+    real(8), parameter :: latRotate0 = PI05-alpha
     real(8), parameter :: lonVortex0 = PI05
     real(8), parameter :: latVortex0 = Equator
 
@@ -90,13 +90,12 @@ contains
         ! set background rotating velocity
         do j = 1, numLatU
             do i = 1, numLonU
-                rotateU(i,j) = V0*(sin(latRotate0)*cos(latU(j))- &
-                    cos(latRotate0)*cos(lonU(i)-lonRotate0)*sin(latU(j)))
+                rotateU(i,j) = V0*(cos(latU(j))*cos(alpha)+sin(latU(j))*cos(lonU(i))*sin(alpha))
             end do
         end do
         do j = 1, numLatV
             do i = 1, numLonV
-                rotateV(i,j) = V0*cos(latRotate0)*sin(lonV(i)-lonRotate0)
+                rotateV(i,j) = -V0*sin(lonV(i))*sin(alpha)
             end do
         end do
 

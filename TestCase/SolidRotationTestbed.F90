@@ -17,9 +17,9 @@ module SolidRotationTestbed
     ! parameters for rotation
     real(8), parameter :: omega = PI2/12.0d0/86400.0d0
     real(8), parameter :: V0 = omega*Re
-    real(8), parameter :: B  = PI05  ! angle between rotation axis and pole
+    real(8), parameter :: alpha  = PI05  ! angle between rotation axis and pole
     real(8), parameter :: lonRotate0 = PI
-    real(8), parameter :: latRotate0 = PI05-B
+    real(8), parameter :: latRotate0 = PI05-alpha
 
     ! parameters for cosine hill
     real(8), parameter :: C0(2) = [PI05,PI05] ! initial center of cosine hill
@@ -82,13 +82,12 @@ contains
         end do
         do j = 1, numLatU
             do i = 1, numLonU
-                u(i,j) = V0*(sin(latRotate0)*cos(latU(j))- &
-                    cos(latRotate0)*cos(lonU(i)-lonRotate0)*sin(latU(j)))
+                u(i,j) = V0*(cos(latU(j))*cos(alpha)+sin(latU(j))*cos(lonU(i))*sin(alpha))
             end do
         end do
         do j = 1, numLatV
             do i = 1, numLonV
-                v(i,j) = V0*cos(latRotate0)*sin(lonV(i)-lonRotate0)
+                v(i,j) = -V0*sin(lonV(i))*sin(alpha)
             end do
         end do
 
