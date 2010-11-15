@@ -34,7 +34,7 @@ module TTS
 contains
 
     ! ************************************************************************ !
-    ! Subroutine TTS_AdvectTracer                                              !
+    ! TTS_AdvectTracer                                              !
     ! Purpose:                                                                 !
     !   Advect tracers for one time step.                                      !
     ! Details:                                                                 !

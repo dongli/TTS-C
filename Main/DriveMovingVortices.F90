@@ -2,6 +2,7 @@ program DriveMovingVortices
 
     use MsgManager
     use RunManager
+    use NFWrap
     use SphereService
     use MeshManager
     use FlowManager
@@ -32,6 +33,7 @@ program DriveMovingVortices
     character(256) flowFile
     character(256) gridFile
     character(256) tracerFile
+    type(FileCard) fcard
 
     logical flag
     integer i, j, k
@@ -92,21 +94,33 @@ program DriveMovingVortices
     ! ************************************************************************ !
     !                           TRACER INITIALIZATION
     ! ************************************************************************ !
-    call TracerManager_RegisterTracer("q", numTracer, Conservative, &
-        "moisture density", "g m-3", tracerId)
     ! set tracer coordinates
-    allocate(x(numDim,numTracer))
-    dx(1) = PI2/numTracerLon
-    dx(2) = PI/numTracerLat
-    do j = 1, numTracerLat
-        do i = 1, numTracerLon
-            k = i+(j-1)*numTracerLon
-            x(1,k) = dx(1)/2.0d0+(i-1)*dx(1)
-            x(2,k) = PI05-dx(2)/2.0d0-(j-1)*dx(2)
+    if (.false.) then
+        allocate(x(numDim,numTracer))
+        dx(1) = PI2/numTracerLon
+        dx(2) = PI/numTracerLat
+        do j = 1, numTracerLat
+            do i = 1, numTracerLon
+                k = i+(j-1)*numTracerLon
+                x(1,k) = dx(1)/2.0d0+(i-1)*dx(1)
+                x(2,k) = PI05-dx(2)/2.0d0-(j-1)*dx(2)
+            end do
         end do
-    end do
+    else
+        print *, "#############################################################################"
+        print *, "Using external data C02562.global.nc for tracer sample's initial coordinates."
+        print *, "#############################################################################"
+        call NFWrap_OpenForRead("C02562.global.nc", fcard)
+        call NFWrap_GetDimSize(fcard, "grid_size", numTracer)
+        allocate(x(numDim,numTracer))
+        call NFWrap_Input1DVar(fcard, "grid_center_lon", x(1,:))
+        call NFWrap_Input1DVar(fcard, "grid_center_lat", x(2,:))
+        call NFWrap_Close(fcard)
+    end if
     ! set tracer quantities
     allocate(q(numTracer))
+    call TracerManager_RegisterTracer("q", numTracer, Conservative, &
+        "moisture density", "g m-3", tracerId)
     call MovingVorticesTestbed_CalcExactSolution( &
         numTracer, x(1,:), x(2,:), 0.0d0, q)
     call TracerManager_InitialCondition(tracerId, numTracer, x, q)

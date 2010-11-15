@@ -1,10 +1,10 @@
 &MeshParams
-numLon          = 240
+numLon          = 240 
 numLat          = 120
 /
 
 &TimeParams
-numTimeStep     = 600
+numTimeStep     = 1
 dt              = 1800.0d0
 /
 

@@ -44,8 +44,14 @@ contains
         type(SubHandle), pointer :: sh
         integer i
 
+        call MsgManager_RecordSpeaker("RunManager_EndRun")
+
         sh => EndRun%head
         do i = 1, EndRun%num
+            if (.not. associated(sh)) then
+                call MsgManager_Speak(Error, "Internal error!")
+                stop
+            end if
             call sh%handle
             sh => sh%next
         end do

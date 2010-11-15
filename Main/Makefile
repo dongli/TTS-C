@@ -1,6 +1,6 @@
 PROJECT_NAME = "TTS Test Case Drivers"
 DEBUG = yes
-OPTIONS = -DLAGRANGE_TO_EULER
+OPTIONS = #-DLAGRANGE_TO_EULER
 TARGET = DriveSolidRotation DriveMovingVortices DriveDeformation \
          GenSearchList DumpSearchList CalcError_1 CalcError_2 \
          CalcExactSolidRotation CalcExactMovingVortices

@@ -3,12 +3,23 @@
 ********************************************************************************
 Description:
 
-  Trajectory Tracking Scheme (TTS) is used to solve linear advection problem in
+  Trajectory-Tracking Scheme (TTS) is used to solve linear advection problem in
 atmospheric sciences. It is constructed in fully Lagrangian framework. The main
 focus of TTS is to eliminate the spurious numerical diffusion.
 
-  The continuous trace constituents are discretized into finite samples, which
-carry the trace quantities (like density, etc). This is refered as Lagrangian
-space. By continuously tracking the location of the samples, numerical diffusion
-can be ruled out in Lagrangian space.
+  The continuous tracer field is discretized as finite samples, which carry the
+tracer quantities (like density, etc). By continuously tracking the locations of
+the samples, numerical diffusion can be ruled out in Lagrangian space. So the 
+control of diffusion is handed over to the user.
 
+  The quantities carried by tracer samples need to be mapped to the grid where 
+the result is rendered. Currently, Inverse Distance Weighted (IDW) interpolation
+is adopted for this task. For conserving mass, the old renormalization technique
+is recalled.
+
+Current Development:
+
+  - Because renormalization technique will cause overshooting in some cases,
+    so more physics-based mapping method should be constructed.
+  - Another project "DelaunayAndVoronoi", which construct the Delaunay
+    triangulation and Voronoi diagram on the sphere, has been launched.

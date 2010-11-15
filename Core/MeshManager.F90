@@ -252,22 +252,30 @@ contains
         type(Location), intent(inout) :: loc
         integer, intent(in), optional :: tracerId, sampleId
 
+        real(8) temp
         type(SubHandle), pointer :: sh
         integer i
 
         call MsgManager_RecordSpeaker("MeshManager_LocationCheck")
 
+        temp = PI05-x(2)
+        temp = merge(0.0d0, temp, abs(temp) < 1.0d-6)
+
         ! full mesh
-        loc%i(1) = min(floor((x(1)-dimInfo%dlon)/dimInfo%dlon)+1, meshes(1)%numLon)
-        loc%j(1) = min(floor((PI05-x(2)-dimInfo%dlat)/dimInfo%dlat)+1, meshes(1)%numLat)
+        loc%i(1) = min(floor(x(1)/dimInfo%dlon-1)+1, meshes(1)%numLon)
+        loc%j(1) = min(floor(temp/dimInfo%dlat-1)+1, meshes(1)%numLat)
+        if (loc%j(1) == -1) then
+            call MsgManager_Speak(Error, "Bad thing happened. loc%j(1) = -1!")
+            call RunManager_EndRun
+        end if
 
         ! zonal half mesh
-        loc%i(2) = min(floor((x(1)-dimInfo%dlon05)/dimInfo%dlon)+1, meshes(2)%numLon)
+        loc%i(2) = min(floor(x(1)/dimInfo%dlon-0.5d0)+1, meshes(2)%numLon)
         loc%j(2) = loc%j(1)
 
         ! meridianal half mesh
         loc%i(3) = loc%i(1)
-        loc%j(3) = floor((PI05-x(2)-dimInfo%dlat05)/dimInfo%dlat)+1
+        loc%j(3) = floor(temp/dimInfo%dlat-0.5d0)+1
 
         ! double half mesh
         loc%i(4) = loc%i(2)

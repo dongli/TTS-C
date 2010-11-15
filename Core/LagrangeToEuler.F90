@@ -203,7 +203,7 @@ contains
         integer i, j
 
         call MsgManager_RecordSpeaker("SampleCounter")
-    
+
         i = merge(loc%i(4), cm%m%numLon, loc%i(4) /= 0)
         j = loc%j(4)
         cm%c(i,j)%tc(tracerId)%numSample = cm%c(i,j)%tc(tracerId)%numSample+1
@@ -339,6 +339,11 @@ contains
                     call MsgManager_Speak(Error, "weightSum equals zero!")
                     write(*, "('  Grid:  ', I3, ',', I3)") i, j
                     write(*, "('  Level: ', I3)") lev
+                    write(*, "('  Support sample IDs:')", advance="no")
+                    do quad = 1, numQuadNormal
+                        write(*, "(I5)", advance="no") supSmpIdNormal(quad)
+                    end do
+                    write(*, *)
                     call RunManager_EndRun
                 end if
 #endif
